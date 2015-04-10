@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<!--Title & css includes-->
+
+<head>
+    <meta charset="UTF-8">
+    <title>PLATONIq - QZ</title>
+    {{{css}}}
+</head>
+<!--Unresolved body to prevent FOUC-->
+
+<body unresolved>
+    {{{nav}}}
+    <!--Include nav and hidden inputs for context-->
+    <input type="hidden" id="currClass">
+    <input type="hidden" id="currQuiz">
+    <input type="hidden" id="currQue">
+
+    <!--Homepage; make it stylish :)-->
+    <div class="page full" id="main">
+        <div class="container-fluid">
+            <div class="jumbotron">
+                <h1>Quizzes You Can Love.</h1>
+                <p>Quick quizzes with a smooth UI and realtime monitoring.</p>
+                <p><a href="/login" class="rL btn btn-primary btn-lg">Get Started</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <!--Login; keep it simple :D-->
+    <div class="page full" id="login">
+        <h1>Log In with Google!</h1>
+        <span class="btn btn-danger" id="loginButton"><i class="fa fa-google"></i></span>
+    </div>
+    <!--Dashboard; a lot of goddamn code-->
+    <div class="page full" id="dash">
+        <h1>Dashboard</h1>
+        <div class="container-fluid">
+            <div class="row" id="cardboard">
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h3>Join Class.</h3>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="joinClassID" placeholder="Class ID">
+                                <br>
+                                <span class="btn btn-success form-control" id="joinClassDo">Join.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <h3>Create Class.</h3>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="makeClassID" placeholder="Class ID">
+                                <br>
+                                <span class="btn btn-primary form-control" id="makeClassDo">Make.</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Quiz; surprisingly small.-->
+    <div class="page full" id="quiz">
+        <h1><span class="quizName">Loading</span></h1>
+        <div id="quizCard" class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="questionNumber"></h3>
+            </div>
+            <div class="panel-body">
+                <h2 id="questionContent">Loading...</h2>
+                <div class="form-group">
+                    <i id="qInf"></i>
+                    <br>
+                    <input type="text" id="answer" class="form-control">
+                    <div id="radioButtons">
+                    </div>
+                </div>
+                <br>
+                <span class="btn btn-primary" id="answerDo">Submit.</span>
+            </div>
+        </div>
+    </div>
+    <!--management :(-->
+    <div class="page full" id="manageClass">
+        <div class="container-fluid">
+            <h1>Manage class <span class="className"></span>. <button class="btn btn-danger" id="resetLive">Reset live quiz.</button></h1>
+            <br>
+            <div class="row" id="manageCardboard">
+                <div class="col-md-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <h3>Create Quiz.</h3>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="makeQuizID" placeholder="Quiz Title">
+                                <br>
+                                <span class="btn btn-primary form-control" id="makeQuizDo">Make.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">DANGER ZONE!</h3>
+                </div>
+                <div class="panel-body">
+                    <button id="deleteClass" class="btn btn-danger">Remove Class.</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page full" id="manageQuiz">
+        <div class="container-fluid">
+            <h1>Manage quiz &quot;<span class="quizName"></span>&quot;. [<a href="/manage" class="rL" id="backToClass"><span class="className"></span></a>]</h1>
+            <br>
+            <a href="/responses/" id="quizResponsesButton" class="btn btn-primary">View Responses</a>
+            <br>
+            <br>
+            <ul class="list-group" id="questionList">
+
+            </ul>
+            <br>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h2>New Question</h2>
+                    <div class="form-group">
+                        <button class="form-control btn btn-success" id="newQueDo">Add</button>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">DANGER ZONE!</h3>
+                </div>
+                <div class="panel-body">
+                    <button id="removeQuizDo" class="btn btn-danger">Remove Quiz.</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page full" id="manageQuestion">
+        <div class="container-fluid">
+            <h1>Editing question #<span class="queNum"></span>. [<a href="/manage" class="rL" id="backToClassFQ"><span class="className"></span></a>/<a href="/manage" class="rL" id="backToQuiz"><span class="quizName"></span></a>]</h1>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h2>Query.</h2>
+                            <br>
+                            <div class="form-group">
+                                <textarea class="form-control" rows="3" id="editQuestion"></textarea>
+                                <br>
+                                <input type="text" class="form-control" id="queCorAns" placeholder="Correct answer.">
+                                <br>
+                                <input type="text" placeholder="Key terms." class="form-control" id="queKeyTerms">
+                                <div id="manMultChoiceChoices">
+                                    <ul class="list-group" id="mMCC">
+                                        <li class="list-group-item">
+                                            <button class="btn btn-primary" id="newMultChoice">New choice.</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <br>
+                                <button id="manageSaveQueDo" class="btn btn-success form-control">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+                            <h2>Settings.</h2>
+                            <div class="checkbox form-control" id="thChbx">
+                                <label>
+                                    <input type="checkbox" id="queMultchoiceEnabled">Multiple Choice?
+                                </label>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="checkbox form-control" id="chAChbx">
+                                        <label>
+                                            <input type="radio" name="aC" id="checkCorrectAnswer">&nbsp;Is there a correct answer?
+                                        </label>
+                                    </div>
+                                    <div class="checkbox form-control" id="keTChbx">
+                                        <label>
+                                            <input type="radio" name="aC" id="checkKeyTerms">&nbsp;Use key terms?
+                                        </label>
+                                    </div>
+                                    <div class="checkbox form-control" id="doChAChbx">
+                                        <label>
+                                            <input type="radio" name="aC" id="checkDontCheck">&nbsp;Don't check answers?
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-danger">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">DANGER ZONE.</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <button class="btn btn-danger" id="deleteQue">Delete Question.</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{{{js}}}
+<script src="/quizbox-app.js"></script>
+
+</html>
