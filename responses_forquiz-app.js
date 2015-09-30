@@ -47,9 +47,10 @@
                         console.log(uid);
                         $('.responseDrawer[data-uID="' + uid + '"]').html("");
                         for(var q in quiz.question) {
-                            if(quiz.question[q].answer[uid]) {
+                            if(quiz.question[q].answer && quiz.question[q].answer[uid]) {
                                 var num = quiz.question[q].content.num;
                                 var ans = quiz.question[q].answer[uid];
+                                console.log(ans);
                                 console.log(num);
                                 var _colour = "default";
                                 if(ans.g == true) {
@@ -59,6 +60,10 @@
                                 }
                                 $('.responseDrawer[data-uid="' + uid + '"]').append("\
 \<div class='col-md-3'><div class='panel panel-" + _colour + "'><div class='panel-heading'><h3 class='panel-title'>" + num + "</h3></div><div class='panel-body'><h3>" + ans.a + "</h3></div></div></div>")
+                            } else {
+                                var num = quiz.question[q].content.num;
+                                $('.responseDrawer[data-uid="' + uid + '"]').append("\
+\<div class='col-md-3'><div class='panel panel-" + _colour + "'><div class='panel-heading'><h3 class='panel-title'>" + num + "</h3></div><div class='panel-body'><h3>N/A</h3></div></div></div>")
                             }
                         }
                     };

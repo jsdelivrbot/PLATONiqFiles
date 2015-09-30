@@ -20,8 +20,10 @@
             }).addClass("selected");
             if(fb.getAuth()) {
                 $('#logoutNav').slideDown();
+                $('#dashNav').slideDown();
             } else {
                 $('#logoutNav').slideUp();
+                $('#dashNav').slideUp();
             }
         };
         var setTitle = function(prefix) {
@@ -316,7 +318,8 @@
                     } else {
                         $('#manMultChoiceChoices').slideUp();
                     }
-                    $('#checkDontCheck').attr("checked", !(question.content.settings.checkAnswers || false));
+                    var checksAnswers = question.content.settings.checkAnswers;
+                    $('#checkDontCheck').attr("checked", !checksAnswers);
                     $('#checkKeyTerms').attr("checked", (question.content.settings.keyTerm || false));
                     $('#checkCorrectAnswer').attr("checked", (question.content.settings.correctAnswer || false));
                     if(!$('#checkCorrectAnswer').is(":checked")) {
@@ -741,14 +744,14 @@
                                                     var correctAnswerPath = questions.child(queID + "/correctAnswer");
                                                     correctAnswerPath.once("value", function(correctAnswerSnap) {
                                                         if(answer.split(" ").join("").toLowerCase() == correctAnswerSnap.val().split(" ").join("").toLocaleLowerCase()) {
-                                                            questions.child(queID + "/answer/g").set(true);
+                                                            questions.child(queID + "/answer/" + fb.getAuth().uid + "/g").set(true);
                                                             $.snackbar({
-                                                                content: "CORRECT!"
+                                                                content: "Correct."
                                                             });
                                                         } else {
-                                                            questions.child(queID + "/answer/g").set(false);
+                                                            questions.child(queID + "/answer/" + fb.getAuth().uid + "/g").set(false);
                                                             $.snackbar({
-                                                                content: "NOPE!"
+                                                                content: "Incorrect."
                                                             });
                                                         }
                                                     });
@@ -763,7 +766,7 @@
                                                                 break;
                                                             }
                                                         }
-                                                        questions.child(queID + "/answer/g").set(fitsTerm);
+                                                        questions.child(queID + "/answer/" + fb.getAuth() + "g").set(fitsTerm);
                                                         $.snackbar({
                                                             content: (fitsTerm ? "CORRECT!" : "NOPE!")
                                                         });
